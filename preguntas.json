@@ -1,0 +1,15 @@
+{
+  "facil": [
+    { "q": "¿Cuál es la unidad de la fuerza en el SI?", "a": ["Newton", "Joule", "Pascal"], "c": 0, "dmg": 40 },
+    { "q": "La inercia es la resistencia al cambio de...", "a": ["Color", "Movimiento", "Temperatura"], "c": 1, "dmg": 40 }
+  ],
+  "medio": [
+    { "q": "Un auto recorre 100m en 5s. ¿Velocidad?", "a": ["20 m/s", "500 m/s", "10 m/s"], "c": 0, "dmg": 80 }
+  ],
+  "fuerte": [
+    { "q": "Calcula la energía cinética: m=2kg, v=10m/s.", "a": ["100 J", "20 J", "200 J"], "c": 0, "dmg": 150 }
+  ],
+  "curacion": [
+    { "q": "Símbolo químico del Oro (Teoría de Materiales):", "a": ["Ag", "Au", "Fe"], "c": 1, "heal": 30 }
+  ]
+}

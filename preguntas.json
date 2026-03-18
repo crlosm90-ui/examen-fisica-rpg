@@ -1,15 +1,15 @@
 {
   "facil": [
-    { "q": "¿Cuál es la unidad de la fuerza en el SI?", "a": ["Newton", "Joule", "Pascal"], "c": 0, "dmg": 40 },
-    { "q": "La inercia es la resistencia al cambio de...", "a": ["Color", "Movimiento", "Temperatura"], "c": 1, "dmg": 40 }
+    { "q": "¿Cuál es la unidad de la fuerza?", "a": ["Newton", "Joule"], "c": 0, "dmg": 50 }
   ],
   "medio": [
-    { "q": "Un auto recorre 100m en 5s. ¿Velocidad?", "a": ["20 m/s", "500 m/s", "10 m/s"], "c": 0, "dmg": 80 }
+    { "q": "Si un objeto no se mueve, su aceleración es...", "a": ["Cero", "Constante", "Infinita"], "c": 0, "dmg": 100 }
   ],
   "fuerte": [
-    { "q": "Calcula la energía cinética: m=2kg, v=10m/s.", "a": ["100 J", "20 J", "200 J"], "c": 0, "dmg": 150 }
+    { "q": "Calcula F si m=10kg y a=2m/s²", "a": ["20N", "5N", "12N"], "c": 0, "dmg": 200 }
   ],
-  "curacion": [
-    { "q": "Símbolo químico del Oro (Teoría de Materiales):", "a": ["Ag", "Au", "Fe"], "c": 1, "heal": 30 }
+  "defensa": [
+    { "q": "¡El jefe lanza un rayo! ¿La energía se crea o se destruye?", "a": ["Se crea", "Solo se transforma"], "c": 1, "dmgEnemigo": 25 },
+    { "q": "¡Cuidado! ¿Cuál es el valor de la gravedad terrestre (aprox)?", "a": ["9.8 m/s²", "1.6 m/s²"], "c": 0, "dmgEnemigo": 20 }
   ]
 }

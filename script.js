@@ -1,27 +1,31 @@
-// Estado del juego
 let bossHP = 500;
 let playerHP = 100;
-let bancoPreguntas = {}; // Aquí se guardará lo que lea del JSON
+let bancoPreguntas = {};
+let faseActual = "TURNO_JUGADOR"; // Puede ser TURNO_JUGADOR o TURNO_ENEMIGO
 
-// 1. Cargar las preguntas al iniciar el juego
 async function cargarPreguntas() {
     try {
         const respuesta = await fetch('preguntas.json');
         bancoPreguntas = await respuesta.json();
-        console.log("Preguntas cargadas con éxito");
-    } catch (error) {
-        console.error("Error cargando el JSON:", error);
-        document.getElementById("battle-log").innerText = "Error al cargar las preguntas.";
-    }
+    } catch (e) { console.error("Error al cargar JSON"); }
 }
-
-// Llamamos a la función de carga de inmediato
 cargarPreguntas();
 
 function prepararAtaque(dificultad) {
-    const lista = bancoPreguntas[dificultad];
-    if (!lista) return;
+    faseActual = "TURNO_JUGADOR";
+    mostrarPregunta(dificultad);
+}
 
+function turnoEnemigo() {
+    faseActual = "TURNO_ENEMIGO";
+    setTimeout(() => {
+        document.getElementById("battle-log").innerText = "¡El jefe se prepara para atacar! ¡Defiéndete!";
+        mostrarPregunta("defensa");
+    }, 2000); // Pausa de 2 segundos para que el usuario lea lo que pasó
+}
+
+function mostrarPregunta(categoria) {
+    const lista = bancoPreguntas[categoria];
     const pregunta = lista[Math.floor(Math.random() * lista.length)];
 
     document.getElementById("actions-container").classList.add("hidden");
@@ -34,31 +38,42 @@ function prepararAtaque(dificultad) {
     pregunta.a.forEach((opt, index) => {
         const btn = document.createElement("button");
         btn.innerText = opt;
-        btn.onclick = () => verificarRespuesta(index, pregunta, dificultad);
+        btn.onclick = () => procesarResultado(index, pregunta);
         optionsDiv.appendChild(btn);
     });
 }
 
-function verificarRespuesta(index, pregunta, dificultad) {
+function procesarResultado(index, pregunta) {
     const log = document.getElementById("battle-log");
-    
-    if (index === pregunta.c) {
-        if (dificultad === "curacion") {
-            playerHP = Math.min(100, playerHP + pregunta.heal);
-            log.innerText = `¡Correcto! Recuperas ${pregunta.heal} HP.`;
-        } else {
+    const esCorrecto = (index === pregunta.c);
+
+    if (faseActual === "TURNO_JUGADOR") {
+        if (esCorrecto) {
             bossHP -= pregunta.dmg;
-            log.innerText = `¡Correcto! Infliges ${pregunta.dmg} de daño.`;
+            log.innerText = `¡HIT! Has acertado y restas ${pregunta.dmg} HP al jefe.`;
+        } else {
+            log.innerText = "¡MISS! Tu ataque ha fallado por un mal cálculo.";
         }
-    } else {
-        // El jefe ataca más fuerte si la pregunta era difícil
-        const dañoEnemigo = dificultad === "fuerte" ? 30 : 15;
-        playerHP -= dañoEnemigo;
-        log.innerText = `¡Error! El jefe te golpea y pierdes ${dañoEnemigo} HP.`;
+        actualizarInterfaz();
+        if (bossHP > 0) turnoEnemigo(); // Si el jefe vive, ataca
+    } 
+    else if (faseActual === "TURNO_ENEMIGO") {
+        if (esCorrecto) {
+            log.innerText = "¡ESQUIVADO! Respondiste bien y evitaste el daño.";
+        } else {
+            const daño = pregunta.dmgEnemigo || 20;
+            playerHP -= daño;
+            log.innerText = `¡GOLPEADO! Fallaste la defensa y recibes ${daño} de daño.`;
+        }
+        actualizarInterfaz();
+        if (playerHP > 0) {
+            setTimeout(() => {
+                log.innerText = "Es tu turno de nuevo. ¡Elige un ataque!";
+                document.getElementById("actions-container").classList.remove("hidden");
+            }, 2000);
+        }
     }
 
-    actualizarInterfaz();
-    document.getElementById("actions-container").classList.remove("hidden");
     document.getElementById("question-container").classList.add("hidden");
     checarFinJuego();
 }
@@ -71,11 +86,6 @@ function actualizarInterfaz() {
 }
 
 function checarFinJuego() {
-    if (bossHP <= 0) {
-        alert("¡Victoria Épica! El examen ha sido superado.");
-        location.reload(); // Reinicia el juego
-    } else if (playerHP <= 0) {
-        alert("Derrota... Necesitas estudiar más para vencer a este jefe.");
-        location.reload();
-    }
+    if (bossHP <= 0) alert("¡VICTORIA! El jefe ha sido derrotado.");
+    if (playerHP <= 0) alert("GAME OVER. El jefe te ha vencido.");
 }

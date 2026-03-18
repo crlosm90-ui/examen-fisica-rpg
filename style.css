@@ -1,5 +1,7 @@
 body {
     background-color: #1a1a2e;
+    background: radial-gradient(circle, #1b2735 0%, #090a0f 100%);
+    overflow: hidden; /* Evita que la pantalla se mueva */
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
@@ -17,6 +19,10 @@ body {
     border: 4px solid #4ecca3;
     border-radius: 15px;
     text-align: center;
+    background: rgba(22, 33, 62, 0.9); /* Un poco de transparencia */
+    border: 4px solid #4ecca3;
+    box-shadow: 0 0 20px #4ecca3; /* Efecto de brillo neón */
+    position: relative;
 }
 
 .health-bar-container {
@@ -67,3 +73,28 @@ button {
 button:hover { background: #45b393; }
 
 .heal-btn { background: #3498db; }
+
+/* Animación de sacudida (cuando reciben daño) */
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    50% { transform: translate(-1px, 2px) rotate(1deg); }
+    100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+.damage-animation {
+    animation: shake 0.5s;
+}
+
+/* Animación de flotar (para que el jefe se vea vivo) */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+#boss-sprite {
+    animation: float 3s ease-in-out infinite;
+    font-size: 100px; /* Mientras ponemos la imagen real */
+}

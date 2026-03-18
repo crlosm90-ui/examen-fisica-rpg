@@ -74,6 +74,18 @@ button:hover { background: #45b393; }
 
 .heal-btn { background: #3498db; }
 
+/* Animación de flotar (para que el jefe se vea vivo) */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+#boss-sprite {
+    animation: float 3s ease-in-out infinite;
+    font-size: 100px; /* Mientras ponemos la imagen real */
+}
+
 /* Animación de sacudida (cuando reciben daño) */
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -85,16 +97,4 @@ button:hover { background: #45b393; }
 
 .damage-animation {
     animation: shake 0.5s;
-}
-
-/* Animación de flotar (para que el jefe se vea vivo) */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-}
-
-#boss-sprite {
-    animation: float 3s ease-in-out infinite;
-    font-size: 100px; /* Mientras ponemos la imagen real */
 }

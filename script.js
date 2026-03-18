@@ -52,8 +52,11 @@ function procesarResultado(index, pregunta) {
         if (esCorrecto) {
             bossHP -= pregunta.dmg;
             // ¡Efecto visual de daño al jefe!
-            bossElement.classList.add("damage-animation");
-            setTimeout(() => bossElement.classList.remove("damage-animation"), 500);
+            const bossElement = document.getElementById("boss-sprite");
+            // REINICIO DE ANIMACIÓN:
+            bossElement.classList.remove("damage-animation"); // Quitamos si ya estaba
+            void bossElement.offsetWidth;                     // Truco de "reflow" para que el navegador note el cambio
+            bossElement.classList.add("damage-animation");    // La ponemos de nuevo
             
             log.innerText = `¡HIT! El jefe retrocede. -${pregunta.dmg} HP`;
         } else {

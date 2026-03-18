@@ -46,13 +46,18 @@ function mostrarPregunta(categoria) {
 function procesarResultado(index, pregunta) {
     const log = document.getElementById("battle-log");
     const esCorrecto = (index === pregunta.c);
+    const bossElement = document.getElementById("boss-sprite");
 
     if (faseActual === "TURNO_JUGADOR") {
         if (esCorrecto) {
             bossHP -= pregunta.dmg;
-            log.innerText = `¡HIT! Has acertado y restas ${pregunta.dmg} HP al jefe.`;
+            // ¡Efecto visual de daño al jefe!
+            bossElement.classList.add("damage-animation");
+            setTimeout(() => bossElement.classList.remove("damage-animation"), 500);
+            
+            log.innerText = `¡HIT! El jefe retrocede. -${pregunta.dmg} HP`;
         } else {
-            log.innerText = "¡MISS! Tu ataque ha fallado por un mal cálculo.";
+            log.innerText = "¡MISS! Tu ataque pasó de largo.";
         }
         actualizarInterfaz();
         if (bossHP > 0) turnoEnemigo(); // Si el jefe vive, ataca
